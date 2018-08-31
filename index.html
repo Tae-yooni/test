@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        html{
+            width: 100%; height:100%;
+            margin:0; padding:0;
+        }
+        #popup{
+            width: 400px; height: 400px;
+            margin:0 auto; background-color: aquamarine;
+            display: none;
+        }
+        
+    </style>
+    <title>This</title>
+</head>
+<body>
+    <button>click</button>
+    <div id ="popup"></div>
+    <script>
+        /*
+        function test(){
+            console.log(this); // window로 나온다.
+        }
+        test();
+
+        const o = {
+            func1(){
+                setTimeout(function(){
+                    this.func2(); // error 뜸 왜냐하면 여기서 this는 window를 가리킨다. 'o' 객체가 아니라.
+                }, 500);
+            },
+            func2(){
+                console.log("heheh it works!");
+            }
+        }
+        o.func1();
+
+// 그래서 위와 같은 문제를 해결하기 위해선 밑에 있는 예와 같이 해야함.
+*/
+/*
+        const o1 = {
+            func1(){
+                const self = this;  // 흔히 this를 'self'나 'that'이라는 변수에 저장하여 사용한다. 여기서 this를 저장하면 func1()이 o1객체의 method이기때문에 'this'는 o1를 가리킨다. 그래서 그걸 변수에 저장한 후
+                setTimeout(function(){ 
+                    self.func2(); // 여기서 쓰면 self는 객체인 o1을 가리키게 됨
+                }, 500);
+            },
+            func2(){
+                console.log("heheh it works!");
+            }
+        }
+        o1.func1();
+
+
+        function logSomething(elem){
+            return {
+                listenClick (){
+                    this.callback = this.BindingMethod.bind(this);
+                    elem.addEventListener("click", this.callback);
+                },
+                BindingMethod(e){
+                    console.log("binding works");
+                    const elem = e.currentTarget;
+                    elem.removeEventListener("click", this.callback);
+                }
+
+            }
+        }
+
+        var button = document.querySelector("button");
+        var logTest = logSomething(button);
+        logTest.listenClick();
+        console.log(logTest);
+
+
+        
+// bind(context) -> bind 함수 안에 argument로 지정할 context를 넣어주면 되는것이다.
+        let user = {
+            firstName: "Tae-yoon"
+        } 
+        function say (){
+            console.log(`${this.firstName}, hello`)
+        }
+        let sayHello = say.bind(user);  // 이것을 해석하자면 say 함수를 실행할때 변수 user의 context에서 함수를 실행하겠다라는 의미로 해석할 수 있다.
+
+        sayHello();
+        
+        // function saySomething() {
+        //     console.log(this);
+        // }
+        // let boundFunction = saySomething.bind({say:"haha"});
+        // boundFunction();
+*/
+
+/*
+        // let arr = [1,2,3];
+
+        // function showData(a,b,c){
+        //     return a + b + c;
+        // }
+
+        // console.log(showData.apply(null, arr));
+        // console.log(showData.call(null, 1,2,3));
+        
+
+        // call 또는 apply도 argument로 'this'(context)를 받는다. 그래서 만약 다른 객체(context)에 있는 프로퍼티를 활용하고 싶다면
+        // 사용하고싶은 프로퍼티가 속해있는 객체를 argument로 pass in 하면 됨
+        
+        let targetObj = {
+            somewords: "if this is logged, it works"
+        }
+        
+        let mainObj = {
+            somewords: "this is original words",
+            say(){
+                console.log(this.somewords);
+            }
+        }
+
+        mainObj.say.call(targetObj);  // 똑같이 "if this is logged, it works" 가 log된다.
+        mainObj.say.apply(targetObj);  // "if this is logged, it works" 
+
+        //결론적으로 bind, apply, call을 통해 bind,apply,call로 활용하고자하는 함수의 context(this)를 바꿀 수 있다.
+*/      
+
+// 하나의 객체에 대상 요소와 각 이벤트에 대한 것들을 저장하고 모아놓음
+        
+        // var Popup = {
+        //     elems : {
+        //         btn : document.querySelector("button"),
+        //         div : document.getElementById("popup")
+        //     },
+        //     trigger(){
+        //         this.callback = this.callback.bind(this);
+        //         this.elems.btn.addEventListener("click", this.callback);
+        //         this.close();
+        //     },
+        //     close(){
+        //         this.elems.div.addEventListener("click", function(){
+        //             this.style.display = "none";
+        //         })
+        //     },
+        //     callback(){
+        //         console.log(this);
+        //         this.elems.div.style.display = "block";
+        //     }
+        // }
+
+        // Popup.trigger();
+
+        // let person1 = {
+        //     name: "Tae-yoon",
+        //     sayHobby(){
+        //         return this.hobby;
+        //     }
+        // }
+
+        // let person2 = {
+        //     name:"Myeongsu",
+        //     hobby:"sports"
+        // }
+
+        // console.log(person1.sayHobby.call(person2));  sports
+        // console.log(person1.sayHobby.apply(person2));  sports
+
+        // let something= {
+        //     word: "this works"
+        // }
+        // function saySomething (){
+        //     console.log(this.word);
+        // }
+        // var result = saySomething.bind(something);
+        // console.log(result()); // this works
+
+
+        let person3 = {
+            name: "tae-yoon",
+            hobby: "playing a game",
+            age: 28,
+            city: "Busan"
+        }
+
+        let person4 = {
+            name: "sora",
+            say(){
+                console.log(`name: ${this.name}, hobby: ${this.hobby}, age: ${this.age}, city: ${this.city}`);
+            },
+            hobby: "taking pictures",
+            age: 26,
+            city: "Jeonju"
+        }
+
+        var boundFunc = person4.say.bind(person3);
+        boundFunc();
+
+
+    //     function func1 (param){   함수로 매개변수만 넘겨서 계산해보기 그냥 재미삼아 해봄!
+    //         var a = 1;
+    //         return a + param();
+    //     }
+    //     function func2 (){
+    //         var b = 2;
+    //         return b;
+    //     }
+
+    //    console.log(func1(func2));
+
+    </script>
+</body>
+</html>
